@@ -6,7 +6,9 @@
  * type Intersection = UnionToIntersection<Union>; // { name: string } & { age: number }
  * ```
  */
-export type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (k: infer I) => void
+export type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (
+  k: infer I,
+) => void
   ? I
   : never;
 
@@ -18,9 +20,10 @@ export type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) ex
  * type Tuple = UnionToTuple<Union>; // ["a", "b", "c"]
  * ```
  */
-export type UnionToTuple<U> = UnionToIntersection<U extends any ? (t: U) => U : never> extends (_: any) => infer W
-  ? [...UnionToTuple<Exclude<U, W>>, W]
-  : [];
+export type UnionToTuple<U> =
+  UnionToIntersection<U extends any ? (t: U) => U : never> extends (_: any) => infer W
+    ? [...UnionToTuple<Exclude<U, W>>, W]
+    : [];
 
 /**
  * Get all keys from a discriminated union.
@@ -168,7 +171,11 @@ export type UnionLength<U> = UnionToTuple<U>["length"];
  * type Mapped = UnionMap<Union, (x: infer T) => T extends "a" ? "x" : "y">; // "x" | "y"
  * ```
  */
-export type UnionMap<U, F extends (x: any) => any> = U extends any ? F extends (x: U) => infer R ? R : never : never;
+export type UnionMap<U, F extends (x: any) => any> = U extends any
+  ? F extends (x: U) => infer R
+    ? R
+    : never
+  : never;
 
 /**
  * Merge all union members into a single object.
@@ -178,7 +185,8 @@ export type UnionMap<U, F extends (x: any) => any> = U extends any ? F extends (
  * type Merged = UnionMerge<Union>; // { a: string; b: number }
  * ```
  */
-export type UnionMerge<U> = UnionToIntersection<U extends any ? () => U : never> extends () => infer R ? R : never;
+export type UnionMerge<U> =
+  UnionToIntersection<U extends any ? () => U : never> extends () => infer R ? R : never;
 
 /**
  * Create a strict union with exact matching.

@@ -1,7 +1,13 @@
 {
   "name": "@editorfirst/types",
-  "module": "dist/index.js",
   "type": "module",
+  "module": "dist/index.js",
+  "scripts": {
+    "build": "tsup",
+    "lint": "oxlint",
+    "fmt": "oxfmt src/**/*.ts",
+    "test": "bun test"
+  },
   "devDependencies": {
     "@types/bun": "latest",
     "oxfmt": "^0.27.0",

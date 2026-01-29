@@ -123,11 +123,12 @@ export type StatusCode =
  * type Params = RouteParams<"/users/:id/posts/:postId">; // { id: string; postId: string }
  * ```
  */
-export type RouteParams<Path extends string> = Path extends `${infer _}:${infer Param}/${infer Rest}`
-  ? { [K in Param | keyof RouteParams<`/${Rest}`>]: string }
-  : Path extends `${infer _}:${infer Param}`
-    ? { [K in Param]: string }
-    : Record<never, never>;
+export type RouteParams<Path extends string> =
+  Path extends `${infer _}:${infer Param}/${infer Rest}`
+    ? { [K in Param | keyof RouteParams<`/${Rest}`>]: string }
+    : Path extends `${infer _}:${infer Param}`
+      ? { [K in Param]: string }
+      : Record<never, never>;
 
 /**
  * Extract and type query parameters from an object.

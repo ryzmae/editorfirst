@@ -14,7 +14,9 @@ export type Fn<Args extends readonly any[] = any[], Return = any> = (...args: Ar
  * type AsyncF = AsyncFn<[string], boolean>; // (args: string) => Promise<boolean>
  * ```
  */
-export type AsyncFn<Args extends readonly any[] = any[], Return = any> = (...args: Args) => Promise<Return>;
+export type AsyncFn<Args extends readonly any[] = any[], Return = any> = (
+  ...args: Args
+) => Promise<Return>;
 
 /**
  * Any function type (accepts any arguments and returns any value).
@@ -53,7 +55,9 @@ export type FnReturn<T extends Fn> = T extends Fn<any, infer Return> ? Return : 
  * type This = FnThis<F>; // { name: string }
  * ```
  */
-export type FnThis<T extends Fn> = T extends (this: infer This, ...args: any[]) => any ? This : unknown;
+export type FnThis<T extends Fn> = T extends (this: infer This, ...args: any[]) => any
+  ? This
+  : unknown;
 
 /**
  * Get all overloads from a function type.
@@ -149,7 +153,10 @@ export type Uncurry<T> = T extends (arg: infer A) => infer R
  * type P = Pipe<[(x: number) => string, (x: string) => boolean]>; // (x: number) => boolean
  * ```
  */
-export type Pipe<T extends readonly Fn[]> = T extends readonly [infer F extends Fn, ...infer Rest extends Fn[]]
+export type Pipe<T extends readonly Fn[]> = T extends readonly [
+  infer F extends Fn,
+  ...infer Rest extends Fn[],
+]
   ? Rest extends []
     ? F
     : (arg: Parameters<F>[0]) => ReturnType<Pipe<Rest>>
@@ -162,7 +169,10 @@ export type Pipe<T extends readonly Fn[]> = T extends readonly [infer F extends 
  * type C = Compose<[(x: string) => boolean, (x: number) => string]>; // (x: number) => boolean
  * ```
  */
-export type Compose<T extends readonly Fn[]> = T extends readonly [...infer Rest extends Fn[], infer F extends Fn]
+export type Compose<T extends readonly Fn[]> = T extends readonly [
+  ...infer Rest extends Fn[],
+  infer F extends Fn,
+]
   ? Rest extends []
     ? F
     : (arg: Parameters<Compose<Rest>>[0]) => ReturnType<F>

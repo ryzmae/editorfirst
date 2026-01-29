@@ -6,7 +6,9 @@
  * type Head = TupleHead<Tuple>; // string
  * ```
  */
-export type TupleHead<T extends readonly any[]> = T extends readonly [infer H, ...any[]] ? H : never;
+export type TupleHead<T extends readonly any[]> = T extends readonly [infer H, ...any[]]
+  ? H
+  : never;
 
 /**
  * Get all elements except the first of a tuple.
@@ -26,7 +28,9 @@ export type TupleTail<T extends readonly any[]> = T extends readonly [any, ...in
  * type Last = TupleLast<Tuple>; // boolean
  * ```
  */
-export type TupleLast<T extends readonly any[]> = T extends readonly [...any[], infer L] ? L : never;
+export type TupleLast<T extends readonly any[]> = T extends readonly [...any[], infer L]
+  ? L
+  : never;
 
 /**
  * Get all elements except the last of a tuple.
@@ -107,7 +111,10 @@ export type TupleConcat<A extends readonly any[], B extends readonly any[]> = [.
  * type Result = TupleReverse<Tuple>; // [boolean, number, string]
  * ```
  */
-export type TupleReverse<T extends readonly any[], R extends any[] = []> = T extends readonly [infer H, ...infer Tail]
+export type TupleReverse<T extends readonly any[], R extends any[] = []> = T extends readonly [
+  infer H,
+  ...infer Tail,
+]
   ? TupleReverse<Tail, [H, ...R]>
   : R;
 
@@ -129,7 +136,10 @@ export type TupleIncludes<T extends readonly any[], V> = V extends T[number] ? t
  * type Index = TupleIndex<Tuple, number>; // 1
  * ```
  */
-export type TupleIndex<T extends readonly any[], V, I extends any[] = []> = T extends readonly [infer H, ...infer Tail]
+export type TupleIndex<T extends readonly any[], V, I extends any[] = []> = T extends readonly [
+  infer H,
+  ...infer Tail,
+]
   ? H extends V
     ? I["length"]
     : TupleIndex<Tail, V, [...I, 1]>
@@ -154,7 +164,13 @@ export type TupleToUnion<T extends readonly any[]> = T[number];
  * ```
  */
 export type TupleMap<T extends readonly any[], F extends (x: any) => any> = {
-  [K in keyof T]: F extends (x: infer I) => any ? (T[K] extends I ? (F extends (x: T[K]) => infer R ? R : never) : never) : never;
+  [K in keyof T]: F extends (x: infer I) => any
+    ? T[K] extends I
+      ? F extends (x: T[K]) => infer R
+        ? R
+        : never
+      : never
+    : never;
 };
 
 /**
@@ -165,7 +181,10 @@ export type TupleMap<T extends readonly any[], F extends (x: any) => any> = {
  * type Result = TupleFilter<Tuple, string>; // [string]
  * ```
  */
-export type TupleFilter<T extends readonly any[], Condition> = T extends readonly [infer H, ...infer Tail]
+export type TupleFilter<T extends readonly any[], Condition> = T extends readonly [
+  infer H,
+  ...infer Tail,
+]
   ? H extends Condition
     ? [H, ...TupleFilter<Tail, Condition>]
     : TupleFilter<Tail, Condition>
