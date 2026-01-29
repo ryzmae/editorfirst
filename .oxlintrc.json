@@ -1,0 +1,13 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "categories": {
+    "perf": "warn",
+    "suspicious": "error",
+    "correctness": "error",
+    "style": "warn",
+    "pedantic": "error"
+  },
+  "env": {
+    "builtin": true
+  }
+}
